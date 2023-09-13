@@ -2,9 +2,22 @@ pipeline {
   agent any
   stages {
     stage('test') {
-      steps {
-        sh 'python -m pytest'
-      }   
+      parallel {
+        stage('pytest') {  
+            steps {
+                sleep(2)
+                sh 'python -m pytest'
+                sh 'echo "Done"'
+            }   
+        }
+        stage('someecho') {  
+            steps {
+                sh 'echo "start"'
+                sleep(2)
+                sh 'echo "end after sleep"'
+            }   
+        }
+      }
     }
   }
 }
